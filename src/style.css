@@ -1,0 +1,12 @@
+body {
+	height: 100vh;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	color-scheme: dark;
+	background-color: #000;
+	background-image: linear-gradient(to bottom right, #100020, #001, #200020);
+	color: #eee;
+	overflow: hidden;
+	margin: 0;
+}

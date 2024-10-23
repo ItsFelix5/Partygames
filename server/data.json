@@ -1,0 +1,206 @@
+{
+	"quiz": [
+		{
+			"question": "Hoe heet de Kerstman?",
+			"answer": 3,
+			"options": ["sentaklaus", "santa klaus", "sinterklaas", "santa"]
+		},
+		{
+			"question": "Welk soort dieren heeft de Kerstman?",
+			"answer": 2,
+			"options": ["koeien", "elanden", "rendieren", "herten"]
+		},
+		{
+			"question": "Hoe heet het bekendste rendier van de kerstman?",
+			"answer": 3,
+			"options": ["Felix", "bard", "roodneus", "rudolf"]
+		},
+		{
+			"question": "Welk soort boom is een kerstboom?",
+			"answer": 0,
+			"options": ["eik", "den", "spar", "anders"]
+		},
+		{
+			"question": "Wat is 1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1?",
+			"answer": 2,
+			"options": ["37", "29", "33", "41"]
+		},
+		{
+			"question": "Wat vieren we met kerst?",
+			"answer": 2,
+			"options": ["De dood van eva", "De geboorte van Jezus", "iets anders", "cadeautjes"]
+		},
+		{
+			"question": "Wie kwam Maria zeggen dat Jezus op komst was?",
+			"answer": 1,
+			"options": ["God", "Gabriel", "Adam", "Onze Lieve Vrouw"]
+		},
+		{
+			"question": "Hoe heet de vrouw van de kerstman?",
+			"answer": 2,
+			"options": ["kerstvrouw", "mevrouw elf", "mevrouw claus", "bestaat niet"]
+		},
+		{
+			"question": "Elke kaars van advent staat voor 1 van de wat?",
+			"answer": 1,
+			"options": ["4 zaterdagen", "4 zondagen", "4 weken voor de Advent", "5 zondagen"]
+		},
+		{
+			"question": "Waar woonde Maria?",
+			"answer": 1,
+			"options": ["Betlehem", "Nazareth", "Jeruzalem", "Babylon"]
+		},
+		{
+			"question": "Wanneer is Jezus geboren?",
+			"answer": 3,
+			"options": ["oudjaar", "kerstdag", "nieuwjaar", "kerstavond"]
+		},
+		{
+			"question": "Wie is de opa van koning Filip?",
+			"answer": 2,
+			"options": ["Albert II", "Boudewijn", "Leopold III", "Leopold II"]
+		},
+		{
+			"question": "Waar werd kerstmis het eerst gevierd?",
+			"answer": 3,
+			"options": ["Jeruzalem", "Onbekend", "Amerika", "Rome"]
+		},
+		{
+			"question": "Waar word kerstmis elk jaar het eerst gevierd?",
+			"answer": 0,
+			"options": ["Kerst eiland", "Rome", "Japan", "Alaska"]
+		},
+		{
+			"question": "Hoe veel jaren oud is de kerstman?",
+			"answer": 3,
+			"options": ["2025", "1000", "2000", "dat weet niemand"]
+		},
+		{
+			"question": "Waaruit is de kerstman ontstaan?",
+			"answer": 1,
+			"options": [
+				"een burgemeester die graag cadeaus uitdeelt",
+				"sinterklaas",
+				"coca cola",
+				"iets anders"
+			]
+		},
+		{ "question": "Uit hoeveel dagen bestaat kerst?", "answer": 3, "options": ["1", "2", "3", "4"] },
+		{ "question": "Krijgt iedereen vakantie op kerstmis?", "answer": 1, "options": ["ja", "nee"] },
+		{
+			"question": "Waar vieren ze geen kerst?",
+			"answer": 2,
+			"options": ["USA", "Japan", "Saudi Arabië", "Duitsland"]
+		},
+		{
+			"question": "Wat stellen kerstballen voor?",
+			"answer": 3,
+			"options": ["appels", "niets", "kaarsen", "vruchten"]
+		},
+		{
+			"question": "Wat hoort bij kerst?",
+			"answer": 1,
+			"options": ["wortel", "piek", "bal", "klok"]
+		},
+		{
+			"question": "Wat hingen mensen vroeger in hun boom?",
+			"answer": 1,
+			"options": ["onderbroeken", "appels", "koekjes", "sokken"]
+		},
+		{
+			"question": "Wat zijn de kleuren van advent?",
+			"answer": 2,
+			"options": ["groen en rood", "rood en paars", "rood groen en geel", "groen en geel"]
+		},
+		{
+			"question": "Wie zijn de drie koningen?",
+			"answer": 1,
+			"options": [
+				"casper, balthasar, melchor",
+				"caspar, balthasar, melchior",
+				"casper, balthasar, melchior",
+				"caspar, baltasar, melchior"
+			]
+		},
+		{
+			"question": "Waar is Jezus geboren?",
+			"answer": 3,
+			"options": ["Jeruzalem", "Kotshoven", "Nazareth", "Betlehem"]
+		},
+		{
+			"question": "Hoeveel rendieren heeft de kerstman?",
+			"answer": 9,
+			"options": ["geen", "9", "10", "12", "13"]
+		},
+		{
+			"question": "Hoe zeg je gelukkig nieuwjaar in het engels?",
+			"answer": 2,
+			"options": ["marry christmas", "happy christmas", "happy new year", " marry newyear"]
+		},
+		{
+			"question": "Hoe noemt de oma van Jezus?",
+			"answer": 1,
+			"options": ["Eva", "Anna", "Ava", "Maria"]
+		},
+		{
+			"question": "Wat is de kerstgedachte?",
+			"answer": 0,
+			"options": ["vrede op aarde", "jezus is verjaard", "ik wil cadeaus", "dat bestaat niet"]
+		},
+		{
+			"question": "Wanneer word drie koningen gevierd?",
+			"answer": 2,
+			"options": ["1/6", "1/1", "6/1", "6/2"]
+		},
+		{
+			"question": "Hoe zijn Maria en Jozef naar Betlehem gegaan?",
+			"answer": 1,
+			"options": ["met een boot", "te voet", "op een ezel", "niet"]
+		},
+		{
+			"question": "In welk land ligt Jeruzalem?",
+			"answer": 3,
+			"options": ["Israël", "Egypte", "Syrië", "Hangt er vanaf"]
+		},
+		{
+			"question": "Wat is de kerstman?",
+			"answer": 1,
+			"options": ["een kabouter", "een mens", "een elf", "dat weten we niet"]
+		},
+		{
+			"question": "Wat vieren we met pasen?",
+			"answer": 3,
+			"options": ["De dood van eva", "De geboorte van Jezus", "Iets anders", "De dood van Josef"]
+		}
+	],
+	"pictionary": [
+		"Kerstboom",
+		"Snowboard",
+		"Jezus",
+		"Ezel",
+		"Stal",
+		"Kip",
+		"Kaas",
+		"Os",
+		"Melk",
+		"Lied",
+		"Modder",
+		"Koning",
+		"Zonsondergang",
+		"Gitaar",
+		"Ridder",
+		"Auto",
+		"Kalkoen",
+		"Huis",
+		"Telefoon",
+		"Rendier",
+		"Kerstman",
+		"Slee",
+		"Sneewvlok",
+		"Kaars",
+		"Sfeer",
+		"Emmer",
+		"Kerstquiz",
+		"Vuurwerk"
+	]
+}
