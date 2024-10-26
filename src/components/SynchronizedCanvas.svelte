@@ -17,8 +17,9 @@
 			ctx.fillRect(0, 0, canvas.width, canvas.height);
 			queue.push({ type: 'dimensions', x: canvas.width, y: canvas.height });
 			ctx.strokeStyle = '#000';
-			ctx.lineWidth = 9;
+			ctx.lineWidth = 10;
 			ctx.lineCap = 'round';
+			(window as any).ctx = ctx;
 			setInterval(() => {
 				if (queue.length == 0) return;
 				connection.send('broadcast', { event: 'draw', data: queue, excludeSelf: true });
@@ -40,7 +41,7 @@
 						ctx.fillStyle = '#DDD';
 						ctx.fillRect(0, 0, canvas.width, canvas.height);
 						ctx.strokeStyle = '#000';
-						ctx.lineWidth = 9;
+						ctx.lineWidth = 10;
 						ctx.lineCap = 'round';
 					}
 				}
@@ -147,7 +148,9 @@
 	}
 
 	export function setColor(c: string) {
-		if (c == ctx.strokeStyle) return;
+		const prev = ctx.strokeStyle.toString().toUpperCase();
+		if (prev.charAt(1) == c.charAt(1) && prev.charAt(3) == c.charAt(2) && prev.charAt(5) == c.charAt(3))
+			return;
 		queue.push({ type: 'color', color: c });
 		ctx.strokeStyle = c;
 	}
@@ -160,8 +163,7 @@
 	}
 </script>
 
-<canvas bind:this={canvas} on:mousedown on:mousemove on:mouseup on:mouseout on:contextmenu={() => false}
-></canvas>
+<canvas bind:this={canvas} on:mousedown on:mousemove on:mouseup on:mouseout></canvas>
 
 <style>
 	canvas {

@@ -2,11 +2,11 @@ import { Connection } from '../src/websocket.ts';
 import dataFile from './data.json' with { type: "json" };
 
 const clients: Connection[] = [];
-const data: { quiz: { question: string; answer: number; options?: string[] }[]; pictionary: string[] } = {
+const data: { quiz: { question: string; answer: number; options?: string[] }[]; pictionary: string[]; scores: {name: string, round: number, multiplier: number, score: number}[] } = {
 	quiz: [],
 	pictionary: [],
+	scores: []
 };
-let scores: {name: string, round: number, multiplier: number, score: number}[] = [];
 
 export function connect(ws: WebSocket) {
 	const connection = new Connection(ws);
@@ -25,23 +25,24 @@ export function connect(ws: WebSocket) {
 		clients.splice(clients.indexOf(connection), 1);
 		clients.forEach(client => client.send('leave', connection.name));
 	});
-	connection.on('start', () => {
-		const type = ['pictionary'][0];
-		const host = clients[~~(Math.random()*clients.length)].name;
-		clients.forEach(client => client.send('game', { type, host }));
+	connection.on('start', (m) => {
+		const type = Object.keys(dataFile.games)[~~(Math.random()*(Object.keys(dataFile.games).length-1))];
+		//@ts-ignore no?
+		const modifier = m? dataFile.games[type][~~(Math.random()*(dataFile.games[type].length))] : null;
+		const host = clients[~~(Math.random()*(clients.length - 1))].name;
+		clients.forEach(client => client.send('game', { type, host, modifier }));
 	});
-	connection.on('score', (score) => {
-		scores.push(score);
-	});
+	connection.on('score', (score) => data.scores.push(score));
 	connection.on('data', (type: 'quiz' | 'pictionary' | 'scores') => {
-		if(type == 'scores') {
-			clients.forEach(client => client.send('data', scores));
-			scores = [];
-			return;
-		}
 		let list = data[type];
-		if (list.length == 0) (data[type] as any) = list = dataFile[type].sort(() => Math.random() - 0.5);
-		const item = list.pop();
+		let item;
+		if(type == 'scores') {
+			item = list;
+			data.scores = [];
+		} else {
+			if (list.length == 0) (data[type] as any) = list = dataFile[type].toSorted(() => Math.random() - 0.5);
+			item = list.pop();
+		}
 		clients.forEach(client => client.send('data', item));
 	});
 }

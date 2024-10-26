@@ -1,4 +1,7 @@
 {
+	"games": {
+		"pictionary": ["Onzichtbaar", "Altijd tekenen", "Sneller", "Zwart-wit"]
+	},
 	"quiz": [
 		{
 			"question": "Hoe heet de Kerstman?",
@@ -201,6 +204,7 @@
 		"Sfeer",
 		"Emmer",
 		"Kerstquiz",
-		"Vuurwerk"
+		"Vuurwerk",
+		"Advent"
 	]
 }

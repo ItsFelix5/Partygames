@@ -6,6 +6,7 @@
 	import { onMount } from 'svelte';
 
 	export let host: string;
+	export let modifier: string;
 
 	let canvas: SynchronizedCanvas;
 	let drawer = host == name;
@@ -14,16 +15,20 @@
 	let canChat = !drawer;
 
 	let filling = false;
-	let size = 9;
+	let size = 10;
 	let color = '#000';
 
 	let selectingSize = false;
 	let timeLeft = 100;
 	let end;
-	onMount(() => (end = Date.now() + timeLeft * 1000));
-	let interval = setInterval(() => {
-		if ((timeLeft = Math.max(0, Math.floor((end - Date.now()) / 1000))) == 0) finish();
-	}, 1000);
+	onMount(() => (end = Date.now() + timeLeft * (modifier == 'Sneller' ? 500 : 1000)));
+	let interval = setInterval(
+		() => {
+			if ((timeLeft = Math.max(0, ~~((end - Date.now()) / (modifier == 'Sneller' ? 500 : 1000)))) == 0)
+				finish();
+		},
+		modifier == 'Sneller' ? 500 : 1000
+	);
 	function finish() {
 		clearInterval(interval);
 		interval = null;
@@ -39,27 +44,30 @@
 	}
 </script>
 
-<div id="canvas">
+<div id="canvas" style:opacity={modifier == 'Onzichtbaar' && drawing ? 0 : 100}>
 	<SynchronizedCanvas
 		bind:this={canvas}
 		{drawer}
 		on:mousedown={e => {
 			if (!drawer) return;
-			if (filling || e.button == 1) return canvas.floodFill(e.offsetX, e.offsetY);
-			if (e.button == 3) return canvas.setSize((size = -3));
-			if (e.button == 4) return canvas.setSize((size = +3));
-			drawing = true;
-			if (e.button == 2) {
-				canvas.setColor('#DDD');
-				canvas.setSize(25);
+			if (modifier != 'Altijd tekenen') {
+				if (filling || e.button == 1) return canvas.floodFill(e.offsetX, e.offsetY);
+				if (e.button == 3) return canvas.setSize((size = -3));
+				if (e.button == 4) return canvas.setSize((size = +3));
+				if (e.button == 2) {
+					canvas.setColor('#DDD');
+					canvas.setSize(25);
+				}
 			}
+			drawing = true;
 			canvas.startDraw(e.offsetX, e.offsetY);
 		}}
 		on:mousemove={e => {
-			if (drawing && (e.buttons == 2 || e.buttons == 1)) canvas.draw(e.offsetX, e.offsetY);
+			if (drawing && (e.buttons == 2 || e.buttons == 1 || modifier == 'Altijd tekenen'))
+				canvas.draw(e.offsetX, e.offsetY);
 		}}
 		on:mouseup={e => {
-			if (!drawing) return;
+			if (!drawing || modifier == 'Altijd tekenen') return;
 			drawing = false;
 			canvas.stopDraw(e.offsetX, e.offsetY);
 			canvas.setColor(color);
@@ -73,7 +81,7 @@
 	{#if drawer}
 		<div id="pallette">
 			<div on:click={() => (filling = !filling)}>{filling ? 'teken' : 'vul'}</div>
-			{#each ['#DDD', '#888', '#000', '#F00', '#F70', '#FF0', '#0C0', '#060', '#0BF', '#21D', '#92B', '#D6A', '#FA8', '#630'] as c}
+			{#each modifier == 'Zwart-wit' ? ['#DDD', '#000'] : ['#DDD', '#888', '#000', '#F00', '#F70', '#FF0', '#0C0', '#060', '#0BF', '#21D', '#92B', '#D6A', '#FA8', '#630'] as c}
 				<div
 					class="color"
 					style:background-color={c}
@@ -101,7 +109,7 @@
 	{:else if !interval}
 		<span>Iedereen heeft het antwoord geraden!</span>
 	{:else}
-		<span>{host} is aan het tekenen!</span>
+		<span>{host} is aan het tekenen!{modifier ? ' | ' + modifier : ''}</span>
 	{/if}
 </div>
 
@@ -115,6 +123,7 @@
 		height: 85%;
 		margin: 1%;
 		user-select: none;
+		transition: opacity 0.3s;
 	}
 
 	#chat {
@@ -168,7 +177,7 @@
 		text-align: center;
 		position: relative;
 		top: -250px;
-		left: -5px;
+		left: -1rem;
 	}
 
 	#brushSizes * {

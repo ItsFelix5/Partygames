@@ -29,7 +29,7 @@
 	});
 </script>
 
-<h1>{question || 'Aan het laden...'}</h1>
+<h1>{question || ''}</h1>
 
 <span id="timer">{timeLeft}</span>
 
@@ -58,6 +58,7 @@
 		padding: 2rem;
 		font-size: 2.5rem;
 		font-weight: bold;
+		max-width: 80%;
 	}
 
 	#timer {
@@ -75,7 +76,7 @@
 	}
 
 	#options {
-		margin-top: 20%;
+		margin-top: 25vh;
 		display: grid;
 		gap: 1.5rem;
 		grid-template-columns: 1fr 1fr;

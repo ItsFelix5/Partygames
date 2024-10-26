@@ -6,10 +6,12 @@ import Name from './pages/Name.svelte';
 import { Connection } from './websocket.ts';
 import type { ComponentType, SvelteComponent } from 'svelte';
 
+document.oncontextmenu = () => false;
+
 export const connection = new Connection(new WebSocket('/ws'));
 connection.name = 'server';
 
-export let name = 'test';
+export let name = 'unknown';
 export const setName = (n: string) => (name = n);
 
 const app: SvelteComponent<{ content: ComponentType<SvelteComponent> }, {}, {}> = new App({
@@ -72,4 +74,4 @@ connection.on('leave', (name: string) => {
 
 (window as any).set = set;
 (window as any).connection = connection;
-(window as any).start = () => connection.send('start');
+(window as any).start = (b?: boolean) => connection.send('start', b);
