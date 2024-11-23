@@ -16,7 +16,7 @@ export const setName = (n: string) => (name = n);
 
 const app: SvelteComponent<{ content: ComponentType<SvelteComponent> }, {}, {}> = new App({
 	target: document.body,
-	props: { content: undefined },
+	props: { content: undefined }
 });
 export const set = (content: ComponentType<SvelteComponent>) => app.$set({ content });
 
@@ -31,7 +31,7 @@ export function getScore(multiplier: number) {
 }
 
 function store<T>(value: T) {
-	const subscribers: Set<(value: T) => void> = new Set();
+	const subscribers: ((value: T) => void)[] = [];
 	return {
 		update() {
 			for (const subscriber of subscribers) subscriber(value);
@@ -42,11 +42,11 @@ function store<T>(value: T) {
 			for (const subscriber of subscribers) subscriber(value);
 		},
 		subscribe(subscriber: (value: T) => void): () => void {
-			subscribers.add(subscriber);
+			subscribers.push(subscriber);
 			subscriber(value);
-			return () => subscribers.delete(subscriber);
+			return () => subscribers.splice(subscribers.indexOf(subscriber), 1);
 		},
-		get: () => value,
+		get: () => value
 	};
 }
 
@@ -65,8 +65,9 @@ connection.on('join', (name: string) => {
 });
 
 connection.on('leave', (name: string) => {
+	if (!_players.includes(name)) return; //My code is perfect
 	_players.splice(
-		_players.findIndex(p => p === name),
+		_players.findIndex(n => n === name),
 		1
 	);
 	players.update();
@@ -75,3 +76,4 @@ connection.on('leave', (name: string) => {
 (window as any).set = set;
 (window as any).connection = connection;
 (window as any).start = (b?: boolean) => connection.send('start', b);
+(window as any).restore = (s: number) => (score = s);

@@ -15,7 +15,7 @@
 	function submit() {
 		document.querySelector('input').focus();
 		if (chatMessage.length < 2) return;
-		canChat = chatMessage.toLowerCase() != word.toLowerCase();
+		canChat = chatMessage.trim().toLowerCase() != word.toLowerCase();
 		if (!canChat) {
 			setScore(timeLeft);
 			connection.send('broadcast', { event: 'chat', data: name + ' heeft het antwoord geraden!' });
@@ -27,10 +27,8 @@
 		if (!canChat) connection.send('data', 'pictionary');
 		connection.on('chat', data => {
 			chatMessages = [...chatMessages, data];
-			requestAnimationFrame(() =>
-				messages.lastElementChild.scrollIntoView({ behavior: 'smooth', block: 'end' })
-			);
-			if (data.includes('heeft het antwoord geraden!')) correct++; // Not perfect but it works I guess
+			requestAnimationFrame(() => messages.lastElementChild.scrollIntoView({ behavior: 'smooth', block: 'end' }));
+			if (data.includes(' heeft het antwoord geraden!')) correct++; // Not perfect but it works I guess
 			if (correct == players.get().length - 1 && timeLeft > 7) finish();
 		});
 		connection.once('data', data => (word = data));
@@ -48,14 +46,7 @@
 </div>
 {#if canChat}
 	<span id="messageBox">
-		<input
-			autofocus
-			on:keydown={e => e.key == 'Enter' && submit()}
-			bind:value={chatMessage}
-			type="text"
-			placeholder="Typ hier wat jij denkt dat jij ziet"
-			maxlength="30"
-		/>
+		<input autofocus on:keydown={e => e.key == 'Enter' && submit()} bind:value={chatMessage} type="text" placeholder="Typ hier wat jij denkt dat jij ziet" maxlength="30" />
 		<button on:click={submit}>Raad</button>
 	</span>
 {/if}

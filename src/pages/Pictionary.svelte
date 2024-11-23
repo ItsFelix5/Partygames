@@ -24,8 +24,7 @@
 	onMount(() => (end = Date.now() + timeLeft * (modifier == 'Sneller' ? 500 : 1000)));
 	let interval = setInterval(
 		() => {
-			if ((timeLeft = Math.max(0, ~~((end - Date.now()) / (modifier == 'Sneller' ? 500 : 1000)))) == 0)
-				finish();
+			if ((timeLeft = Math.max(0, ~~((end - Date.now()) / (modifier == 'Sneller' ? 500 : 1000)))) == 0) finish();
 		},
 		modifier == 'Sneller' ? 500 : 1000
 	);
@@ -39,7 +38,7 @@
 				connection.send('broadcast', { event: 'game', data: { type: 'quiz' } });
 				connection.send('data', 'quiz');
 			}, 5000);
-			setScore(~~Math.max(timeLeft / 2 + (75 / (players.get().length - 1)) * correct, 0));
+			setScore(~~Math.max(timeLeft / 2 + (modifier ? 70 : 50 / (players.get().length - 1)) * correct, 0));
 		}
 	}
 </script>
@@ -48,7 +47,7 @@
 	<SynchronizedCanvas
 		bind:this={canvas}
 		{drawer}
-		on:mousedown={e => {
+		on:pointerdown={e => {
 			if (!drawer) return;
 			if (modifier != 'Altijd tekenen') {
 				if (filling || e.button == 1) return canvas.floodFill(e.offsetX, e.offsetY);
@@ -62,18 +61,17 @@
 			drawing = true;
 			canvas.startDraw(e.offsetX, e.offsetY);
 		}}
-		on:mousemove={e => {
-			if (drawing && (e.buttons == 2 || e.buttons == 1 || modifier == 'Altijd tekenen'))
-				canvas.draw(e.offsetX, e.offsetY);
+		on:pointermove={e => {
+			if (drawing && (e.buttons == 2 || e.buttons == 1 || modifier == 'Altijd tekenen')) canvas.draw(e.offsetX, e.offsetY);
 		}}
-		on:mouseup={e => {
+		on:pointerup={e => {
 			if (!drawing || modifier == 'Altijd tekenen') return;
 			drawing = false;
 			canvas.stopDraw(e.offsetX, e.offsetY);
 			canvas.setColor(color);
 			canvas.setSize(size);
 		}}
-		on:mouseout={e => drawing && canvas.stopDraw(e.offsetX, e.offsetY)}
+		on:pointerout={e => drawing && canvas.stopDraw(e.offsetX, e.offsetY)}
 	/>
 </div>
 
@@ -82,21 +80,12 @@
 		<div id="pallette">
 			<div on:click={() => (filling = !filling)}>{filling ? 'teken' : 'vul'}</div>
 			{#each modifier == 'Zwart-wit' ? ['#DDD', '#000'] : ['#DDD', '#888', '#000', '#F00', '#F70', '#FF0', '#0C0', '#060', '#0BF', '#21D', '#92B', '#D6A', '#FA8', '#630'] as c}
-				<div
-					class="color"
-					style:background-color={c}
-					style:border-color={color == c ? '#190bd3' : ''}
-					on:click={() => canvas.setColor((color = c))}
-				/>
+				<div class="color" style:background-color={c} style:border-color={color == c ? '#190bd3' : ''} on:click={() => canvas.setColor((color = c))} />
 			{/each}
 			<div on:mouseenter={() => (selectingSize = true)} on:mouseleave={() => (selectingSize = false)}>
 				{size}
 				{#if selectingSize}
-					<div
-						id="brushSizes"
-						transition:fly={{ y: 200, duration: 300 }}
-						on:click={() => (selectingSize = false)}
-					>
+					<div id="brushSizes" transition:fly={{ y: 200, duration: 300 }} on:click={() => (selectingSize = false)}>
 						{#each [30, 25, 20, 15, 10, 5, 3, 1] as s}
 							<div on:click={() => canvas.setSize((size = s))}>{s}</div>
 						{/each}

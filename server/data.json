@@ -81,14 +81,8 @@
 		{
 			"question": "Waaruit is de kerstman ontstaan?",
 			"answer": 1,
-			"options": [
-				"een burgemeester die graag cadeaus uitdeelt",
-				"sinterklaas",
-				"coca cola",
-				"iets anders"
-			]
+			"options": ["een burgemeester die graag cadeaus uitdeelt", "sinterklaas", "coca cola", "iets anders"]
 		},
-		{ "question": "Uit hoeveel dagen bestaat kerst?", "answer": 3, "options": ["1", "2", "3", "4"] },
 		{ "question": "Krijgt iedereen vakantie op kerstmis?", "answer": 1, "options": ["ja", "nee"] },
 		{
 			"question": "Waar vieren ze geen kerst?",
@@ -118,12 +112,7 @@
 		{
 			"question": "Wie zijn de drie koningen?",
 			"answer": 1,
-			"options": [
-				"casper, balthasar, melchor",
-				"caspar, balthasar, melchior",
-				"casper, balthasar, melchior",
-				"caspar, baltasar, melchior"
-			]
+			"options": ["casper, balthasar, melchor", "caspar, balthasar, melchior", "casper, balthasar, melchior", "caspar, baltasar, melchior"]
 		},
 		{
 			"question": "Waar is Jezus geboren?",
@@ -172,7 +161,7 @@
 		},
 		{
 			"question": "Wat vieren we met pasen?",
-			"answer": 3,
+			"answer": 2,
 			"options": ["De dood van eva", "De geboorte van Jezus", "Iets anders", "De dood van Josef"]
 		}
 	],

@@ -29,7 +29,7 @@ export function connect(ws: WebSocket) {
 		const type = Object.keys(dataFile.games)[~~(Math.random()*(Object.keys(dataFile.games).length-1))];
 		//@ts-ignore no?
 		const modifier = m? dataFile.games[type][~~(Math.random()*(dataFile.games[type].length))] : null;
-		const host = clients[~~(Math.random()*(clients.length - 1))].name;
+		const host = clients[~~(Math.random()*(clients.length))].name;
 		clients.forEach(client => client.send('game', { type, host, modifier }));
 	});
 	connection.on('score', (score) => data.scores.push(score));

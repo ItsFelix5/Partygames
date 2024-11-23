@@ -1,7 +1,7 @@
 export class Connection {
+	private unhandled: Record<string, any[]> = {};
 	private listeners: Record<string, (data?: any) => void> = {};
-	send: (event: string, data?: any) => void = () =>
-		console.warn('Message sent before connection was established! (' + this.name + ')');
+	send: (event: string, data?: any) => void = () => console.warn('Message sent before connection was established! (' + this.name + ')');
 	name = 'unknown';
 
 	constructor(socket: WebSocket) {
@@ -21,12 +21,9 @@ export class Connection {
 			console.log('Connection established!');
 			this.send = (event, data) => {
 				if (socket.readyState != socket.OPEN) {
-					this.send = () =>
-						console.warn('Message sent after connection was closed! (' + this.name + ')');
+					this.send = () => console.warn('Message sent after connection was closed! (' + this.name + ')');
 					this.listeners['close']?.();
-					console.warn(
-						'Message sent after connection was closed and not deleted! (' + this.name + ')'
-					);
+					console.warn('Message sent after connection was closed and not deleted! (' + this.name + ')');
 					return;
 				}
 				console.log('Sent:', event, data, 'to', this.name);
@@ -38,13 +35,19 @@ export class Connection {
 	}
 
 	on(event: string, listener: (data?: any) => void) {
+		if (this.listeners[event]) console.warn('Listener for', event, 'was overwritten! (' + this.name + ')');
 		this.listeners[event] = listener;
+		this.unhandled[event]?.forEach(d => listener(d)); // Not good for once but write better code I guess
 	}
 
 	getListener(event: string) {
 		return (
 			this.listeners[event] ||
-			(d => console.warn('Message received from', this.name, 'but not handled (' + event, d + ')'))
+			(d => {
+				console.warn('Message received from', this.name, 'but not handled (' + event, d + ')');
+				this.unhandled[event] ??= [];
+				this.unhandled[event].push(d);
+			})
 		);
 	}
 

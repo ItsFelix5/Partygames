@@ -62,8 +62,7 @@
 		pixelData.data[i + 2] = color[2];
 	}
 
-	const similar = (c1: number[], c2: number[]) =>
-		(c1[0] - c2[0]) ** 2 + (c1[1] - c2[1]) ** 2 + (c1[2] - c2[2]) ** 2 < 6500;
+	const similar = (c1: number[], c2: number[]) => (c1[0] - c2[0]) ** 2 + (c1[1] - c2[1]) ** 2 + (c1[2] - c2[2]) ** 2 < 6500;
 
 	export function floodFill(x: number, y: number) {
 		const int = parseInt(ctx.strokeStyle.toString().slice(1), 16);
@@ -103,20 +102,12 @@
 
 				for (cx = w; cx <= e; cx++) {
 					// Check up
-					if (
-						cy > 0 &&
-						similar(getPixel(pixelData, cx, cy - 1), targetColor) &&
-						!done[cx][cy - 1]
-					) {
+					if (cy > 0 && similar(getPixel(pixelData, cx, cy - 1), targetColor) && !done[cx][cy - 1]) {
 						stack.push([cx, cy - 1]);
 						done[cx][cy - 1] = true;
 					}
 					// Check down
-					if (
-						cy < canvas.height - 1 &&
-						similar(getPixel(pixelData, cx, cy + 1), targetColor) &&
-						!done[cx][cy + 1]
-					) {
+					if (cy < canvas.height - 1 && similar(getPixel(pixelData, cx, cy + 1), targetColor) && !done[cx][cy + 1]) {
 						stack.push([cx, cy + 1]);
 						done[cx][cy + 1] = true;
 					}
@@ -149,8 +140,7 @@
 
 	export function setColor(c: string) {
 		const prev = ctx.strokeStyle.toString().toUpperCase();
-		if (prev.charAt(1) == c.charAt(1) && prev.charAt(3) == c.charAt(2) && prev.charAt(5) == c.charAt(3))
-			return;
+		if (prev.charAt(1) == c.charAt(1) && prev.charAt(3) == c.charAt(2) && prev.charAt(5) == c.charAt(3)) return;
 		queue.push({ type: 'color', color: c });
 		ctx.strokeStyle = c;
 	}
@@ -163,7 +153,7 @@
 	}
 </script>
 
-<canvas bind:this={canvas} on:mousedown on:mousemove on:mouseup on:mouseout></canvas>
+<canvas bind:this={canvas} on:pointerdown on:pointermove on:pointerup on:pointerout></canvas>
 
 <style>
 	canvas {
