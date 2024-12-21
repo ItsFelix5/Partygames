@@ -127,7 +127,7 @@
 		{
 			"question": "Hoe zeg je gelukkig nieuwjaar in het engels?",
 			"answer": 2,
-			"options": ["marry christmas", "happy christmas", "happy new year", " marry newyear"]
+			"options": ["marry christmas", "happy christmas", "happy new year", "marry newyear"]
 		},
 		{
 			"question": "Hoe noemt de oma van Jezus?",
@@ -163,6 +163,31 @@
 			"question": "Wat vieren we met pasen?",
 			"answer": 2,
 			"options": ["De dood van eva", "De geboorte van Jezus", "Iets anders", "De dood van Josef"]
+		},
+		{
+			"question": "Wat is de voornaam van de paus?",
+			"answer": 2,
+			"options": ["Franciscus", "Benedictus", "Jorge", "Josef"]
+		},
+		{
+			"question": "Wat is de gekozen naam van de paus?",
+			"answer": 0,
+			"options": ["Franciscus", "Benedictus", "Jorge", "Josef"]
+		},
+		{
+			"question": "Hoeveel pausen zijn er (geweest)?",
+			"answer": 2,
+			"options": ["264", "265", "266", "287"]
+		},
+		{
+			"question": "Wat is het symbool van de katholieke kerk?",
+			"answer": 3,
+			"options": ["Adventskrans", "Kerk", "Kruis", "Crucifix"]
+		},
+		{
+			"question": "Hoeveel zijden heeft een vijfhoekige ster?",
+			"answer": 3,
+			"options": ["4", "5", "6", "10"]
 		}
 	],
 	"pictionary": [
@@ -194,6 +219,7 @@
 		"Emmer",
 		"Kerstquiz",
 		"Vuurwerk",
-		"Advent"
+		"Advent",
+		"Oma"
 	]
 }

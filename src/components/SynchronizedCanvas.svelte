@@ -19,10 +19,9 @@
 			ctx.strokeStyle = '#000';
 			ctx.lineWidth = 10;
 			ctx.lineCap = 'round';
-			(window as any).ctx = ctx;
 			setInterval(() => {
 				if (queue.length == 0) return;
-				connection.send('broadcast', { event: 'draw', data: queue, excludeSelf: true });
+				if (!DEBUG) connection.send('broadcast', { event: 'draw', data: queue, excludeSelf: true });
 				queue = [];
 			}, 50);
 		} else
@@ -65,6 +64,8 @@
 	const similar = (c1: number[], c2: number[]) => (c1[0] - c2[0]) ** 2 + (c1[1] - c2[1]) ** 2 + (c1[2] - c2[2]) ** 2 < 6500;
 
 	export function floodFill(x: number, y: number) {
+		x = ~~x;
+		y = ~~y;
 		const int = parseInt(ctx.strokeStyle.toString().slice(1), 16);
 		const replacementColor = [(int >> 16) & 255, (int >> 8) & 255, int & 255];
 		const pixelData = ctx.getImageData(0, 0, canvas.width, canvas.height);
@@ -73,7 +74,7 @@
 		if (drawer) queue.push({ type: 'floodFill', x, y });
 
 		const done: boolean[][] = [];
-		for (let i = 0; i < canvas.width; i++) done[i] = [];
+		for (let x = 0; x < canvas.width; x++) done[x] = [];
 		done[x][y] = true;
 
 		const stack = [[x, y]];
@@ -132,6 +133,7 @@
 	}
 
 	export function stopDraw(x: number, y: number) {
+		if (x < 0) return;
 		if (drawer) queue.push({ type: 'stop', x, y });
 		ctx.lineTo(x, y);
 		ctx.stroke();
@@ -153,7 +155,7 @@
 	}
 </script>
 
-<canvas bind:this={canvas} on:pointerdown on:pointermove on:pointerup on:pointerout></canvas>
+<canvas bind:this={canvas} on:pointerdown on:mousemove on:mouseup on:touchmove on:touchend on:pointerout></canvas>
 
 <style>
 	canvas {

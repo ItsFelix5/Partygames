@@ -13,7 +13,7 @@
 	let chatMessages: string[] = [];
 	let chatMessage = '';
 	function submit() {
-		document.querySelector('input').focus();
+		if ('ontouchstart'! in window && navigator.maxTouchPoints <= 0) document.querySelector('input').focus();
 		if (chatMessage.length < 2) return;
 		canChat = chatMessage.trim().toLowerCase() != word.toLowerCase();
 		if (!canChat) {
@@ -44,9 +44,17 @@
 		</div>
 	{/each}
 </div>
-{#if canChat}
+<!-- svelte-ignore missing-declaration -->
+{#if canChat || DEBUG}
 	<span id="messageBox">
-		<input autofocus on:keydown={e => e.key == 'Enter' && submit()} bind:value={chatMessage} type="text" placeholder="Typ hier wat jij denkt dat jij ziet" maxlength="30" />
+		<input
+			autofocus={!('ontouchstart' in window) && navigator.maxTouchPoints <= 0}
+			on:keydown={e => e.key == 'Enter' && submit()}
+			bind:value={chatMessage}
+			type="text"
+			placeholder="Typ hier wat jij denkt dat jij ziet"
+			maxlength="30"
+		/>
 		<button on:click={submit}>Raad</button>
 	</span>
 {/if}
@@ -55,7 +63,9 @@
 	#word {
 		background-color: #111;
 		height: 7.5%;
-		text-align: center;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 		padding: 0.75rem;
 		font-size: 1.5rem;
 		border-radius: 10px;
@@ -80,6 +90,9 @@
 		justify-content: center;
 		align-items: center;
 		padding: 1%;
+		position: absolute;
+		bottom: 0.5%;
+		width: 98%;
 	}
 
 	input {

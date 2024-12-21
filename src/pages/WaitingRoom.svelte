@@ -1,5 +1,5 @@
-<script>
-	import { players } from './../main.ts';
+<script type="ts">
+	import { name, players } from '../main';
 </script>
 
 <main>
@@ -19,6 +19,10 @@
 		{/each}
 	</div>
 </main>
+
+{#if name == 'Felix'}
+	<button on:click={() => window.start()}>Start</button>
+{/if}
 
 <style>
 	main {
@@ -47,5 +51,15 @@
 		justify-content: center;
 		align-items: center;
 		font-size: xx-large;
+	}
+
+	button {
+		position: absolute;
+		bottom: 10px;
+		right: 10px;
+		background-color: #222;
+		border: 1px solid #111;
+		border-radius: 6px;
+		padding: 5px;
 	}
 </style>

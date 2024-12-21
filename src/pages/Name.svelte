@@ -1,13 +1,12 @@
 <script lang="ts">
-	import { set, connection, setName } from '../main';
-	import WaitingRoom from './WaitingRoom.svelte';
+	import { connection, setName } from '../main';
 
 	function submit() {
 		const name = document.querySelector('input').value;
 		if (name.length < 2) return;
 		setName(name);
-		set(WaitingRoom);
 		connection.send('join', name);
+		document.documentElement.requestFullscreen({ navigationUI: 'hide' });
 	}
 </script>
 

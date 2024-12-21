@@ -11,7 +11,7 @@ function startWss() {
 			connect(socket);
 			return response;
 		});
-	} catch (e) {}
+	} catch (e) { }
 }
 
 export default defineConfig({
@@ -31,5 +31,6 @@ export default defineConfig({
 				rewriteWsOrigin: true,
 			},
 		},
+		hmr: false
 	},
 });

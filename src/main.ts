@@ -3,22 +3,40 @@ import './style.css';
 import App from './App.svelte';
 //@ts-ignore
 import Name from './pages/Name.svelte';
+//@ts-ignore
+import WaitingRoom from './pages/WaitingRoom.svelte';
 import { Connection } from './websocket.ts';
 import type { ComponentType, SvelteComponent } from 'svelte';
+import { store } from "./util/utils.ts";
 
-document.oncontextmenu = () => false;
+declare global {
+	var DEBUG: boolean;
+	interface Window {
+		connection: Connection;
+		start: (b?: boolean) => void;
+		restore: (s: number) => void;
+		endRound: () => void;
+	}
+}
 
-export const connection = new Connection(new WebSocket('/ws'));
+globalThis.DEBUG = false;
+
+oncontextmenu = () => false;
+//onbeforeunload = () => 'Weet je zeker dat je de pagina wilt verlaten?';
+
+export const connection = window.connection = new Connection(DEBUG ? (null as any as WebSocket) : new WebSocket('/ws'));
 connection.name = 'server';
 
 export let name = 'unknown';
-export const setName = (n: string) => (name = n);
+export const setName = (n: string) => {
+	name = n;
+	app.$set({ content: WaitingRoom });
+};
 
 const app: SvelteComponent<{ content: ComponentType<SvelteComponent> }, {}, {}> = new App({
 	target: document.body,
 	props: { content: undefined }
 });
-export const set = (content: ComponentType<SvelteComponent>) => app.$set({ content });
 
 let round = 0;
 let score = 0;
@@ -30,30 +48,16 @@ export function getScore(multiplier: number) {
 	return result;
 }
 
-function store<T>(value: T) {
-	const subscribers: ((value: T) => void)[] = [];
-	return {
-		update() {
-			for (const subscriber of subscribers) subscriber(value);
-		},
-		set(new_value: T) {
-			if (value === new_value) return;
-			value = new_value;
-			for (const subscriber of subscribers) subscriber(value);
-		},
-		subscribe(subscriber: (value: T) => void): () => void {
-			subscribers.push(subscriber);
-			subscriber(value);
-			return () => subscribers.splice(subscribers.indexOf(subscriber), 1);
-		},
-		get: () => value
-	};
-}
-
 const _players: string[] = [];
 export let players = store(_players);
 
-connection.once('open', () => set(Name));
+connection.once('open', () => {
+	if (DEBUG) {
+		setName('Felix');
+		_players.push('Felix');
+		_players.push('Fred');
+	} else app.$set({ content: Name });
+});
 
 connection.once('close', () => {
 	document.body.innerHTML = 'Verbinding verbroken!';
@@ -73,7 +77,13 @@ connection.on('leave', (name: string) => {
 	players.update();
 });
 
-(window as any).set = set;
-(window as any).connection = connection;
-(window as any).start = (b?: boolean) => connection.send('start', b);
-(window as any).restore = (s: number) => (score = s);
+const { error } = console;
+console.error = (...args: any[]) => {
+	error(...args);
+	connection.send('error', args.join(' '));
+};
+window.onerror = (message, source, lineno, colno, error) => connection.send('error', `${message} (${source} ${lineno}:${colno}`);
+window.onunhandledrejection = error => connection.send('error', error.reason);
+
+window.start = (b?: boolean) => connection.send('start', b);
+window.restore = (s: number) => (score = s);
