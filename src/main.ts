@@ -23,8 +23,10 @@ globalThis.DEBUG = false; // I broke this c:
 
 oncontextmenu = () => false;
 //onbeforeunload = () => 'Weet je zeker dat je de pagina wilt verlaten?';
-navigator.wakeLock.request();
-document.addEventListener("visibilitychange", () => document.visibilityState === "visible" && navigator.wakeLock.request());
+if ("wakelock" in navigator) {
+	navigator.wakeLock.request();
+	document.addEventListener("visibilitychange", () => document.visibilityState === "visible" && navigator.wakeLock.request());
+}
 
 export const connection = window.connection = new Connection(undefined, DEBUG);
 connection.name = 'server';

@@ -29,6 +29,7 @@ export default defineConfig({
 				rewriteWsOrigin: true,
 			},
 		},
-		hmr: false
+		hmr: false,
+		port: 80
 	},
 });
