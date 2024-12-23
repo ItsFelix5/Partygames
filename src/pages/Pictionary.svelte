@@ -2,7 +2,7 @@
 	import { Modifier, type timer } from '../types';
 	import Chat from '../components/Chat.svelte';
 	import { fly } from 'svelte/transition';
-	import { connection, getScore, name, players, setScore } from '../main';
+	import { connection, name, players, setScore } from '../main';
 	import SynchronizedCanvas from '../components/SynchronizedCanvas.svelte';
 	import { onDestroy, onMount } from 'svelte';
 	import { createTimer } from '../util/utils';

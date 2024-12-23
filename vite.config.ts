@@ -30,6 +30,8 @@ export default defineConfig({
 			},
 		},
 		hmr: false,
-		port: 80
+	},
+	preview: {
+		port: 80,
 	},
 });

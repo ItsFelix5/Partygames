@@ -185,6 +185,66 @@
 			"question": "Hoeveel zijden heeft een vijfhoekige ster?",
 			"answer": 3,
 			"options": ["4", "5", "6", "10"]
+		},
+		{
+			"question": "Hoeveel zijden heeft ster?",
+			"answer": 3,
+			"options": ["10", "5", "6", "geen"]
+		},
+		{
+			"question": "In welk jaar werd de eerste kerstkaart verzonden?",
+			"answer": 0,
+			"options": ["1843", "1898", "1951", "0"]
+		},
+		{
+			"question": "Hoe zeg je 'Fijne kerst' in het Italiaans?",
+			"answer": 2,
+			"options": ["Buon Fine Settimana", "Buona Pasqua", "Buon Natale", "Fijne kerst"]
+		},
+		{
+			"question": "Hoe stuurden mensen elkaar kerstgroeten in de Middeleeuwen?",
+			"answer": 2,
+			"options": ["met brieven", "met geverfde stenen", "met een houtsnijwerk", "Niet"]
+		},
+		{
+			"question": "Welke geschenken brachten de drie wijzen mee naar Jezus?",
+			"answer": 3,
+			"options": ["Zilver, olie, mirre", "Goud, geurige olie en mirre", "Goud, zilver en mirre", "Goud, wierook en mirre"]
+		},
+		{
+			"question": "Welk woord schrijf je volgens de officiële regels met een hoofdletter?",
+			"answer": 2,
+			"options": ["Kerst", "Kerstmis", "Kerstfeest", "3 Koningen"]
+		},
+		{
+			"question": "Waar is de piek bovenop de kerstboom op gebaseerd?",
+			"answer": 1,
+			"options": ["Het vroeg pieken tijdens het kerstontbijt", "De Ster van Bethlehem", "De helderste ster aan de hemel in de nacht voor kerst", "Niets"]
+		},
+		{
+			"question": "Hoe vaak hebben wij een witte kerst gehad in de laatste 100 jaar?",
+			"answer": 0,
+			"options": ["8", "13", "14", "65"]
+		},
+		{
+			"question": "Hoe lang duurt het voor een kerstboom volwassen is?",
+			"answer": 3,
+			"options": ["6 maanden", "1 jaar", "3 jaar", "8 jaar"]
+		},
+		{
+			"question": "Hoe veel echte kerstbomen worden ongeveer per jaar verkocht?",
+			"answer": 3,
+			"options": ["900000", "2500000", "4700000", "5392000"]
+		},
+		{
+			"question": "Waar vier je sowiso geen witte kerst?",
+			"answer": 1,
+			"options": ["Tokyo", "Canberra", "New York", "België"]
+		},
+		{
+			"question": "wat moet je doen om je kerstboom zo lang mogelijk mooi te houden?",
+			"answer": 1,
+			"options": ["Eierschalen in de grond steken", "Elke dag 1l water geven", "Elke week 5l water geven", "Elke dag 5dl water geven"]
 		}
 	],
 	"pictionary": [
