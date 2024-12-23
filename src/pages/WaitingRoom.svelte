@@ -1,5 +1,6 @@
 <script type="ts">
-	import { name, players } from '../main';
+	import StartButton from './../components/StartButton.svelte';
+	import { players } from '../main';
 </script>
 
 <main>
@@ -20,9 +21,7 @@
 	</div>
 </main>
 
-{#if name == 'Felix'}
-	<button on:click={() => window.start()}>Start</button>
-{/if}
+<StartButton />
 
 <style>
 	main {
@@ -43,7 +42,7 @@
 
 	.item {
 		width: 100%;
-		height: 100%;
+		height: 90%;
 		background-color: #1a1a1a;
 		border-radius: 10px;
 		margin: 1%;
@@ -51,15 +50,5 @@
 		justify-content: center;
 		align-items: center;
 		font-size: xx-large;
-	}
-
-	button {
-		position: absolute;
-		bottom: 10px;
-		right: 10px;
-		background-color: #222;
-		border: 1px solid #111;
-		border-radius: 6px;
-		padding: 5px;
 	}
 </style>

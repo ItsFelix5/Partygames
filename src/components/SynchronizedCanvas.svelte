@@ -21,7 +21,7 @@
 			ctx.lineCap = 'round';
 			setInterval(() => {
 				if (queue.length == 0) return;
-				if (!DEBUG) connection.send('broadcast', { event: 'draw', data: queue, excludeSelf: true });
+				if (!DEBUG) connection.broadcast('draw', queue, true);
 				queue = [];
 			}, 50);
 		} else

@@ -1,7 +1,4 @@
 {
-	"games": {
-		"pictionary": ["Onzichtbaar", "Altijd tekenen", "Sneller", "Zwart-wit"]
-	},
 	"quiz": [
 		{
 			"question": "Hoe heet de Kerstman?",
@@ -97,7 +94,7 @@
 		{
 			"question": "Wat hoort bij kerst?",
 			"answer": 1,
-			"options": ["wortel", "piek", "bal", "klok"]
+			"options": ["wortel", "piek", "voetbal", "klok"]
 		},
 		{
 			"question": "Wat hingen mensen vroeger in hun boom?",
@@ -121,8 +118,8 @@
 		},
 		{
 			"question": "Hoeveel rendieren heeft de kerstman?",
-			"answer": 9,
-			"options": ["geen", "9", "10", "12", "13"]
+			"answer": 1,
+			"options": ["geen", "9", "10", "13"]
 		},
 		{
 			"question": "Hoe zeg je gelukkig nieuwjaar in het engels?",
@@ -213,7 +210,7 @@
 		"Rendier",
 		"Kerstman",
 		"Slee",
-		"Sneewvlok",
+		"Sneeuwvlok",
 		"Kaars",
 		"Sfeer",
 		"Emmer",

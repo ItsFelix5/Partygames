@@ -1,18 +1,15 @@
 <script lang="ts">
+	import StartButton from './../components/StartButton.svelte';
 	import { onMount } from 'svelte';
 	import { flip } from 'svelte/animate';
-	import { connection, name } from '../main';
+	import type { score } from '../types';
 
-	let players: { name: string; round: number; multiplier: number; score: number }[] = [];
-	onMount(() =>
-		connection.once('data', scores => {
-			players = scores.sort((a, b) => b.score - a.score);
-			setTimeout(() => (players = players.map(p => ({ ...p, score: ~~(p.score + p.round * p.multiplier) }))), 1000);
-			setTimeout(() => (players = players.sort((a, b) => b.score - a.score)), 2500);
-		})
-	);
-
-	let modifier = false;
+	export let data: score[] = [];
+	onMount(() => {
+		data = data.sort((a, b) => b.score - a.score);
+		setTimeout(() => (data = data.map(p => ({ ...p, score: ~~(p.score + p.round * p.multiplier) }))), 1000);
+		setTimeout(() => (data = data.sort((a, b) => b.score - a.score)), 2500);
+	});
 </script>
 
 <main>
@@ -27,7 +24,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{#each players as player (player.name)}
+			{#each data as player (player.name)}
 				<tr animate:flip={{ duration: 1500 }}>
 					<td>{player.name}</td>
 					<td>{player.round}</td>
@@ -42,12 +39,7 @@
 	</table>
 </main>
 
-{#if name == 'Felix'}
-	<div id="start">
-		<input type="checkbox" bind:checked={modifier} />
-		<button on:click={() => window.start(modifier)}>Start</button>
-	</div>
-{/if}
+<StartButton />
 
 <style>
 	main {
@@ -103,18 +95,5 @@
 
 	.score::after {
 		content: counter(score);
-	}
-
-	#start {
-		position: absolute;
-		bottom: 10px;
-		right: 10px;
-	}
-
-	button {
-		background-color: #222;
-		border: 1px solid #111;
-		border-radius: 6px;
-		padding: 5px;
 	}
 </style>

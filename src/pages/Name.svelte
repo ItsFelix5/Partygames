@@ -1,11 +1,10 @@
 <script lang="ts">
-	import { connection, setName } from '../main';
+	import { setName } from '../main';
 
 	function submit() {
 		const name = document.querySelector('input').value;
 		if (name.length < 2) return;
 		setName(name);
-		connection.send('join', name);
 		document.documentElement.requestFullscreen({ navigationUI: 'hide' });
 	}
 </script>
@@ -14,7 +13,7 @@
 	<h1>Wat is je naam?</h1>
 	<br />
 	<span>
-		<input type="text" autofocus on:keydown={e => e.key == 'Enter' && submit()} />
+		<input type="text" autofocus minlength="2" maxlength="30" on:keydown={e => e.key == 'Enter' && submit()} />
 		<button on:click={submit}>Volgende</button>
 	</span>
 </main>

@@ -23,17 +23,17 @@ export function createTimer(time: number, cb?: () => void, speed = 1000) {
     const end = Date.now() + time * speed;
 
     let ended = false;
-    function stop() {
+    window.endTimer = (runCb = true) => {
         if (ended) return;
         ended = true;
         clearInterval(interval);
-        cb?.();
+        if (runCb) cb?.();
     }
 
     const interval = setInterval(() => {
         time = Math.max(0, Math.round((end - Date.now()) / speed));
         subscribers.forEach(s => s(time));
-        if (time == 0) stop();
+        if (time == 0) window.endTimer();
     }, speed);
 
     return {
@@ -42,6 +42,31 @@ export function createTimer(time: number, cb?: () => void, speed = 1000) {
             subscriber(time);
             return () => subscribers.splice(subscribers.indexOf(subscriber), 1);
         },
-        end: stop
+        end: window.endTimer
+    };
+}
+
+export function choose<T>(choices: T[]) {
+    return choices[~~(Math.random() * choices.length)];
+}
+
+export function shuffled<T>(array: T[]) {
+    let items = array.toSorted(() => Math.random() - 0.5);
+    return () => {
+        if (items.length == 0) items = array.toSorted(() => Math.random() - 0.5);
+        return items.pop() as T;
+    };
+}
+
+export function fancyShuffled<T>() {
+    const array: T[] = [];
+    let items: T[] = [];
+    return {
+        get: () => {
+            if (items.length == 0) items = array.toSorted(() => Math.random() - 0.5);
+            return items.pop() as T;
+        },
+        add: (item: T) => (items.push(item), array.push(item)),
+        remove: (item: T) => (items.splice(items.indexOf(item), 1), array.splice(array.indexOf(item), 1))
     };
 }

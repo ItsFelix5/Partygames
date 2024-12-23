@@ -1,16 +1,16 @@
 <script lang="ts">
+	import { Modifier, type timer } from '../types';
 	import Chat from '../components/Chat.svelte';
 	import { fly } from 'svelte/transition';
 	import { connection, getScore, name, players, setScore } from '../main';
 	import SynchronizedCanvas from '../components/SynchronizedCanvas.svelte';
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 	import { createTimer } from '../util/utils';
 
-	export let host: string;
-	export let modifier: string;
+	export let data: { word: string; host: string; modifier: Modifier | null };
 
 	let canvas: SynchronizedCanvas;
-	let drawer = host == name;
+	let drawer = data.host == name;
 	let correct: number;
 	let drawing = false;
 	let canChat = !drawer;
@@ -20,46 +20,35 @@
 	let color = '#000';
 
 	let selectingSize = false;
-	let timeLeft: { subscribe(subscriber: (value: number) => void): () => void; end: () => void };
+	let timeLeft: timer;
 	let done = false;
 	onMount(
 		() =>
 			(timeLeft = createTimer(
 				100,
 				() => {
-					if (done) return;
 					done = true;
 					canChat = false;
 					if (drawer) {
 						drawer = false;
-						setTimeout(
-							() => {
-								if ($timeLeft == 0 && correct == 0) {
-									connection.send('broadcast', { event: 'game', data: { type: 'scoreboard' } });
-									connection.send('data', 'scores');
-								} else {
-									connection.send('broadcast', { event: 'game', data: { type: 'quiz' } });
-									connection.send('data', 'quiz');
-								}
-							},
-							DEBUG ? 0 : 5000
-						);
-						setScore(~~Math.max($timeLeft + (modifier ? 70 : 50 / (players.get().length - 1)) * correct, 0));
+						drawing = false;
+						setTimeout(() => connection.send('quiz'), DEBUG ? 0 : 5000);
+						setScore(~~Math.max($timeLeft + ((data.modifier ? 70 : 50) / (players.get().length - 1)) * correct, 0));
 					}
-					if ($timeLeft == 0 && correct == 0) connection.send('score', getScore(1));
 				},
-				modifier == 'Sneller' ? 500 : 10
+				data.modifier == Modifier.Sneller ? 500 : 1000
 			))
 	);
+	onDestroy(() => timeLeft?.end(false));
 </script>
 
-<div id="canvas" style:opacity={modifier == 'Onzichtbaar' && drawing ? 0 : 100}>
+<div id="canvas" style:opacity={data.modifier == Modifier.Onzichtbaar && drawing ? 0 : 100}>
 	<SynchronizedCanvas
 		bind:this={canvas}
 		{drawer}
 		on:pointerdown={e => {
 			if (!drawer) return;
-			if (modifier != 'Altijd tekenen') {
+			if (data.modifier != Modifier.Altijd_tekenen) {
 				if (filling || e.button == 1) return canvas.floodFill(e.offsetX, e.offsetY);
 				if (e.button == 3) return canvas.setSize((size -= 5));
 				if (e.button == 4) return canvas.setSize((size += 5));
@@ -72,7 +61,7 @@
 			canvas.startDraw(e.offsetX, e.offsetY);
 		}}
 		on:mousemove={e => {
-			if (drawing && (e.buttons == 2 || e.buttons == 1 || modifier == 'Altijd tekenen')) canvas.draw(e.offsetX, e.offsetY);
+			if (drawing && (e.buttons == 2 || e.buttons == 1 || data.modifier == Modifier.Altijd_tekenen)) canvas.draw(e.offsetX, e.offsetY);
 		}}
 		on:touchmove={e => {
 			if (!drawing) return;
@@ -81,14 +70,14 @@
 			canvas.draw(e.touches[0].pageX - ele.offsetLeft, e.touches[0].pageY - ele.offsetTop);
 		}}
 		on:touchend={e => {
-			if (!drawing || modifier == 'Altijd tekenen') return;
+			if (!drawing || data.modifier == Modifier.Altijd_tekenen) return;
 			drawing = false;
 			const ele = e.changedTouches[0].target;
 			// @ts-ignore
 			canvas.stopDraw(e.changedTouches[0].pageX - ele.offsetLeft, e.changedTouches[0].pageY - ele.offsetTop);
 		}}
 		on:mouseup={e => {
-			if (!drawing || modifier == 'Altijd tekenen') return;
+			if (!drawing || data.modifier == Modifier.Altijd_tekenen) return;
 			drawing = false;
 			canvas.stopDraw(e.offsetX, e.offsetY);
 			canvas.setColor(color);
@@ -101,10 +90,10 @@
 <div id="bottom">
 	{#if drawer}
 		<div id="pallette">
-			{#if modifier != 'Altijd tekenen'}
+			{#if data.modifier != Modifier.Altijd_tekenen}
 				<div on:click={() => (filling = !filling)}>{filling ? 'teken' : 'vul'}</div>
 			{/if}
-			{#each modifier == 'Zwart-wit' ? ['#DDD', '#000'] : ['#DDD', '#888', '#000', '#F00', '#F70', '#FF0', '#0C0', '#060', '#0BF', '#21D', '#92B', '#D6A', '#FA8', '#630'] as c}
+			{#each data.modifier == Modifier.Zwart_wit ? ['#DDD', '#000'] : ['#DDD', '#888', '#000', '#F00', '#F70', '#FF0', '#0C0', '#060', '#0BF', '#21D', '#92B', '#D6A', '#FA8', '#630'] as c}
 				<div class="color" style:background-color={c} style:border-color={color == c ? '#190bd3' : ''} on:click={() => canvas.setColor((color = c))} />
 			{/each}
 			<div on:mouseenter={() => (selectingSize = true)} on:mouseleave={() => (selectingSize = false)}>
@@ -130,12 +119,12 @@
 	{:else if done}
 		<span>Iedereen heeft het antwoord geraden!</span>
 	{:else}
-		<span>{host} is aan het tekenen!{modifier ? ' | ' + modifier : ''}</span>
+		<span>{data.host} is aan het tekenen!{data.modifier ? ' | ' + data.modifier : ''}</span>
 	{/if}
 </div>
 
 <div id="chat">
-	<Chat timeLeft={$timeLeft} {canChat} finish={timeLeft?.end} bind:correct />
+	<Chat timeLeft={$timeLeft} {canChat} word={data.word} finish={timeLeft?.end} bind:correct />
 </div>
 
 <style>

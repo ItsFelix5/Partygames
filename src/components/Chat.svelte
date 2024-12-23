@@ -7,7 +7,7 @@
 	export let canChat: boolean;
 	export let finish: () => void;
 	export let correct = 0;
-	let word = '';
+	export let word = '';
 
 	let messages: HTMLDivElement;
 	let chatMessages: string[] = [];
@@ -18,20 +18,20 @@
 		canChat = chatMessage.trim().toLowerCase() != word.toLowerCase();
 		if (!canChat) {
 			setScore(timeLeft);
-			connection.send('broadcast', { event: 'chat', data: name + ' heeft het antwoord geraden!' });
-		} else connection.send('broadcast', { event: 'chat', data: name + ': ' + chatMessage });
+			connection.broadcast('chat', name + ' heeft het antwoord geraden!');
+		} else connection.broadcast('chat', name + ': ' + chatMessage);
 		chatMessage = '';
 	}
 
 	onMount(() => {
-		if (!canChat) connection.send('data', 'pictionary');
+		let players = $players.length;
 		connection.on('chat', data => {
 			chatMessages = [...chatMessages, data];
-			requestAnimationFrame(() => messages.lastElementChild.scrollIntoView({ behavior: 'smooth', block: 'end' }));
+			// Check if messages still exists as an animation frame can be requested after the component is destroyed when the tab is not focused
+			requestAnimationFrame(() => messages && messages.lastElementChild.scrollIntoView({ behavior: 'smooth', block: 'end' }));
 			if (data.includes(' heeft het antwoord geraden!')) correct++; // Not perfect but it works I guess
-			if (correct == players.get().length - 1 && timeLeft > 7) finish();
+			if (correct == players - 1 && timeLeft > 7) finish();
 		});
-		connection.once('data', data => (word = data));
 	});
 	onDestroy(() => connection.removeListener('chat'));
 </script>

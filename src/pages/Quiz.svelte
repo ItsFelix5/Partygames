@@ -1,49 +1,36 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { connection, getScore, name } from '../main';
+	import { onDestroy, onMount } from 'svelte';
+	import { connection, gameMaster, getScore, name } from '../main';
 	import { createTimer } from '../util/utils';
-	import type { Readable } from 'svelte/store';
+	import type { question, timer } from '../types';
 
-	export let host: string;
+	export let data: question;
 
-	let question: string;
-	let answer: number;
-	let options: string[] | undefined;
 	let guess: number | undefined;
-	let timeLeft: Readable<number>;
-	onMount(() =>
-		connection.once('data', data => {
-			question = data.question;
-			answer = data.answer;
-			options = data.options;
-			timeLeft = createTimer(10, () => {
-				connection.send('score', getScore(guess == answer ? (name == 'Felix' || name.toLowerCase() == 'mia' ? 1.3 : 1.5) : 1));
-				if (name == host)
-					setTimeout(
-						() => {
-							connection.send('broadcast', { event: 'game', data: { type: 'scoreboard' } });
-							connection.send('data', 'scores');
-						},
-						DEBUG ? 0 : 3000
-					);
-			});
-		})
+	let timeLeft: timer;
+	onMount(
+		() =>
+			(timeLeft = createTimer(10, () => {
+				connection.send('score', getScore(guess == data.answer ? (gameMaster || name.toLowerCase() == 'mia' ? 1.3 : 1.5) : 1));
+				if (gameMaster) setTimeout(() => connection.send('scores'), DEBUG ? 0 : 3000);
+			}))
 	);
+	onDestroy(() => timeLeft?.end(false));
 </script>
 
 <div id="questioncontainer">
-	<h1>{question || ''}</h1>
+	<h1>{data.question || ''}</h1>
 </div>
 
 <span id="timer">{$timeLeft}</span>
 
-{#if options}
+{#if data.options}
 	<div id="options">
-		{#each options as option, i}
+		{#each data.options as option, i}
 			<div
 				class="option"
 				style:opacity={(guess == undefined && $timeLeft > 0) || guess == i ? 1 : 0.5}
-				style:background-color={$timeLeft > 0 ? ['rgb(211, 18, 25)', 'rgb(27, 104, 197)', 'rgb(21, 91, 58)', 'rgb(219, 91, 0)'][i] : i == answer ? '#33ff00' : '#ff0000'}
+				style:background-color={$timeLeft > 0 ? ['rgb(211, 18, 25)', 'rgb(27, 104, 197)', 'rgb(21, 91, 58)', 'rgb(219, 91, 0)'][i] : i == data.answer ? '#33ff00' : '#ff0000'}
 				on:click={() => guess == undefined && $timeLeft > 0 && (guess = i)}
 			>
 				{option}

@@ -3,15 +3,13 @@ import { svelte } from '@sveltejs/vite-plugin-svelte';
 import { connect } from './server/index.ts';
 
 function startWss() {
-	try {
-		Deno.serve({ port: 8080 }, async req => {
-			if (req.headers.get('upgrade') !== 'websocket')
-				return new Response('Not a websocket request', { status: 400 });
-			const { socket, response } = Deno.upgradeWebSocket(req);
-			connect(socket);
-			return response;
-		});
-	} catch (e) { }
+	Deno.serve({ port: 8080 }, async req => {
+		if (req.headers.get('upgrade') !== 'websocket')
+			return new Response('Not a websocket request', { status: 400 });
+		const { socket, response } = Deno.upgradeWebSocket(req);
+		connect(socket);
+		return response;
+	});
 }
 
 export default defineConfig({

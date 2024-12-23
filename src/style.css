@@ -10,9 +10,10 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 	color-scheme: dark;
 	background-color: #000;
-	background-image: linear-gradient(to bottom right, #100020, #001, #200020);
+	background-image: linear-gradient(to bottom right, #0a0020, #001, #1a001a);
 	color: #eee;
 	margin: 0;
+	user-select: none;
 }
 
 * {
