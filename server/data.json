@@ -242,7 +242,7 @@
 			"options": ["Tokyo", "Canberra", "New York", "België"]
 		},
 		{
-			"question": "wat moet je doen om je kerstboom zo lang mogelijk mooi te houden?",
+			"question": "Wat moet je doen om je kerstboom zo lang mogelijk mooi te houden?",
 			"answer": 1,
 			"options": ["Eierschalen in de grond steken", "Elke dag 1l water geven", "Elke week 5l water geven", "Elke dag 5dl water geven"]
 		}
@@ -277,6 +277,8 @@
 		"Kerstquiz",
 		"Vuurwerk",
 		"Advent",
-		"Oma"
+		"Oma",
+		"Jezus",
+		"Jaguar"
 	]
 }

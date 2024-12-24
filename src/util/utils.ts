@@ -57,16 +57,3 @@ export function shuffled<T>(array: T[]) {
         return items.pop() as T;
     };
 }
-
-export function fancyShuffled<T>() {
-    const array: T[] = [];
-    let items: T[] = [];
-    return {
-        get: () => {
-            if (items.length == 0) items = array.toSorted(() => Math.random() - 0.5);
-            return items.pop() as T;
-        },
-        add: (item: T) => (items.push(item), array.push(item)),
-        remove: (item: T) => (items.splice(items.indexOf(item), 1), array.splice(array.indexOf(item), 1))
-    };
-}

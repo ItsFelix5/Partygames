@@ -68,6 +68,7 @@ if (DEBUG) {
 }
 
 connection.once('close', () => {
+	document.exitFullscreen();
 	document.body.innerHTML = 'Verbinding verbroken!';
 });
 

@@ -2,7 +2,7 @@
 	import { setName } from '../main';
 
 	function submit() {
-		const name = document.querySelector('input').value;
+		const name = document.querySelector('input').value.trim();
 		if (name.length < 2) return;
 		setName(name);
 		document.documentElement.requestFullscreen({ navigationUI: 'hide' });

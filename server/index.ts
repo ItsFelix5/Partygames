@@ -1,5 +1,5 @@
 import { Modifier, type score } from "../src/types.ts";
-import { choose, fancyShuffled, shuffled } from "../src/util/utils.ts";
+import { choose, shuffled } from "../src/util/utils.ts";
 import { Connection } from '../src/websocket.ts';
 import data from './data.json' with { type: "json" };
 
@@ -7,7 +7,6 @@ const clients: Connection[] = [];
 let scores: score[] = [];
 let words = shuffled(data.pictionary);
 let quiz = shuffled(data.quiz);
-let players = fancyShuffled<string>();
 
 function broadcast(event: string, data?: any) {
 	console.log('Broadcasting', event, data);
@@ -19,7 +18,6 @@ export function connect(ws: WebSocket) {
 	connection.once('join', (name: string) => {
 		if (clients.some(p => p.name == name)) return connection.send('close');
 		clients.push(connection);
-		players.add(name);
 		connection.name = name;
 		clients.forEach(client => {
 			client.send('join', name);
@@ -29,11 +27,11 @@ export function connect(ws: WebSocket) {
 	connection.on('broadcast', ({ event, data, excludeSelf }) => clients.forEach(client => (!excludeSelf || client != connection) && client.send(event, data, false)));
 	connection.once('close', () => {
 		clients.splice(clients.indexOf(connection), 1);
-		players.remove(connection.name);
 		broadcast('leave', connection.name);
 	});
 	connection.on('start', (m: boolean) => {
-		broadcast('pictionary', { host: players.get(), modifier: m ? choose(Object.values(Modifier)) : null, word: words() });
+		broadcast('pictionary', { host: clients[0], modifier: m ? choose(Object.values(Modifier)) : null, word: words() });
+		clients.push(clients.shift()!);
 	});
 	connection.on('score', (score: score) => scores.push(score));
 	connection.on('scores', () => {

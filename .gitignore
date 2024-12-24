@@ -2,3 +2,4 @@
 /debug.log
 /deno.lock
 /node_modules
+/dist
