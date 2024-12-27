@@ -33,7 +33,7 @@
 						drawer = false;
 						drawing = false;
 						setTimeout(() => connection.send('quiz'), DEBUG ? 0 : 5000);
-						setScore(~~Math.max($timeLeft + ((data.modifier ? 70 : 50) / (players.get().length - 1)) * correct, 0));
+						setScore(~~Math.max($timeLeft / 1.5 + ((data.modifier ? 70 : 50) / (players.get().length - 1)) * correct, 0));
 					}
 				},
 				data.modifier == Modifier.Sneller ? 500 : 1000

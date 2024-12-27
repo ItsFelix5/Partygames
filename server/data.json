@@ -17,7 +17,7 @@
 		},
 		{
 			"question": "Welk soort boom is een kerstboom?",
-			"answer": 0,
+			"answer": 2,
 			"options": ["eik", "den", "spar", "anders"]
 		},
 		{
@@ -103,8 +103,8 @@
 		},
 		{
 			"question": "Wat zijn de kleuren van advent?",
-			"answer": 2,
-			"options": ["groen en rood", "rood en paars", "rood groen en geel", "groen en geel"]
+			"answer": 0,
+			"options": ["groen en rood", "rood en paars", "paars en geel", "groen en geel"]
 		},
 		{
 			"question": "Wie zijn de drie koningen?",
@@ -207,19 +207,19 @@
 			"options": ["met brieven", "met geverfde stenen", "met een houtsnijwerk", "Niet"]
 		},
 		{
-			"question": "Welke geschenken brachten de drie wijzen mee naar Jezus?",
+			"question": "Welke geschenken brachten de drie koningen mee naar Jezus?",
 			"answer": 3,
 			"options": ["Zilver, olie, mirre", "Goud, geurige olie en mirre", "Goud, zilver en mirre", "Goud, wierook en mirre"]
 		},
 		{
 			"question": "Welk woord schrijf je volgens de officiële regels met een hoofdletter?",
-			"answer": 2,
+			"answer": 1,
 			"options": ["Kerst", "Kerstmis", "Kerstfeest", "3 Koningen"]
 		},
 		{
 			"question": "Waar is de piek bovenop de kerstboom op gebaseerd?",
 			"answer": 1,
-			"options": ["Het vroeg pieken tijdens het kerstontbijt", "De Ster van Bethlehem", "De helderste ster aan de hemel in de nacht voor kerst", "Niets"]
+			"options": ["Het vroeg pieken tijdens het kerstontbijt", "De ster boven Bethlehem op kerst", "De helderste ster aan de hemel in de nacht voor kerst", "Niets"]
 		},
 		{
 			"question": "Hoe vaak hebben wij een witte kerst gehad in de laatste 100 jaar?",
@@ -279,6 +279,10 @@
 		"Advent",
 		"Oma",
 		"Jezus",
-		"Jaguar"
+		"Jaguar",
+    "Drie koningen",
+    "Helikopter",
+    "Alien",
+    "Feest"
 	]
 }

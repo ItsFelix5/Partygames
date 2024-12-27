@@ -30,7 +30,7 @@ export function connect(ws: WebSocket) {
 		broadcast('leave', connection.name);
 	});
 	connection.on('start', (m: boolean) => {
-		broadcast('pictionary', { host: clients[0], modifier: m ? choose(Object.values(Modifier)) : null, word: words() });
+		broadcast('pictionary', { host: clients[0].name, modifier: m ? choose(Object.values(Modifier)) : null, word: words() });
 		clients.push(clients.shift()!);
 	});
 	connection.on('score', (score: score) => scores.push(score));
